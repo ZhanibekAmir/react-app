@@ -1,6 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+
+
+
+
 
 const App = () => {
   const [count, setCount] = useState(0);
@@ -17,6 +22,15 @@ const App = () => {
   const Ronaldo = () => {
     alert("lol");
   };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   return (
     <div className="App">
@@ -40,6 +54,38 @@ const App = () => {
           Learn React
         </a>
       </header>
+      <div className="container">
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>name</th>
+              <th>email</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {" "}
+            <tr>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>Germany</td>
+            </tr>
+            <tr>
+              <td>Centro comercial Moctezuma</td>
+              <td>Francisco Chang</td>
+              <td>Mexico</td>
+            </tr>
+          </tbody>
+        </table>
+        {data.map((user) => (
+          <tr key={user.id}>
+            <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+          </tr>
+        ))}
+      </div>
     </div>
   );
 };
